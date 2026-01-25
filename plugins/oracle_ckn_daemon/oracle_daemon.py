@@ -23,6 +23,7 @@ POWER_SUMMARY_TOPIC = os.getenv('POWER_SUMMARY_TOPIC', 'cameratraps-power-summar
 POWER_SUMMARY_TIMOUT = os.getenv('POWER_SUMMARY_TIMOUT', 10)
 POWER_SUMMARY_MAX_TRIES = os.getenv('POWER_SUMMARY_TIMOUT', 5)
 ENABLE_POWER_MONITORING = os.getenv('ENABLE_POWER_MONITORING', "false")
+KAFKA_SECURITY_PROTOCOL = os.getenv('CKN_KAFKA_SECURITY_PROTOCOL', 'SSL')
 
 
 class OracleEventHandler(FileSystemEventHandler):
@@ -437,7 +438,7 @@ if __name__ == "__main__":
         time.sleep(1)
 
     # Configure Kafka producer.
-    kafka_conf = {'bootstrap.servers': KAFKA_BROKER, 'log_level': 0, 'security.protocol': 'SSL'}
+    kafka_conf = {'bootstrap.servers': KAFKA_BROKER, 'log_level': 0, 'security.protocol': KAFKA_SECURITY_PROTOCOL}
 
     logging.info("Connecting to the CKN broker at %s", KAFKA_BROKER)
 
