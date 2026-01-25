@@ -1,0 +1,86 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ckn-dashboard
+  namespace: ckn
+  labels:
+    app: ckn-dashboard
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 8502
+      targetPort: 8502
+  selector:
+    app: ckn-dashboard
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ckn-dashboard
+  namespace: ckn
+  labels:
+    app: ckn-dashboard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ckn-dashboard
+  template:
+    metadata:
+      labels:
+        app: ckn-dashboard
+    spec:
+      containers:
+        - name: ckn-dashboard
+          image: iud2i/ckn-analytics-dashboard:latest
+          ports:
+            - containerPort: 8502
+              name: http
+          env:
+            - name: NEO4J_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: ckn-config
+                  key: neo4j-uri
+            - name: NEO4J_USER
+              valueFrom:
+                secretKeyRef:
+                  name: ckn-secrets
+                  key: neo4j-user
+            - name: NEO4J_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: ckn-secrets
+                  key: neo4j-password
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ckn-secrets
+                  key: openai-api-key
+                  optional: true
+            - name: PATRA_SERVER
+              valueFrom:
+                configMapKeyRef:
+                  name: ckn-config
+                  key: patra-server
+                  optional: true
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8502
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8502
+            initialDelaySeconds: 30
+            periodSeconds: 30

@@ -1,0 +1,129 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-connect
+  namespace: ckn
+  labels:
+    app: kafka-connect
+spec:
+  type: ClusterIP
+  ports:
+    - name: rest
+      port: 8083
+      targetPort: 8083
+  selector:
+    app: kafka-connect
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kafka-connect-scripts
+  namespace: ckn
+data:
+  setup_connector.sh: |
+    #!/bin/bash
+    set -e
+    
+    echo "Starting Kafka Connect..."
+    /etc/confluent/docker/run &
+    
+    echo "Waiting for Kafka Connect to be ready..."
+    while ! curl -s http://localhost:8083/connectors > /dev/null; do
+      echo "Waiting for Kafka Connect REST API..."
+      sleep 5
+    done
+    
+    echo "Kafka Connect is ready!"
+    
+    # Keep container running
+    wait
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-connect
+  namespace: ckn
+  labels:
+    app: kafka-connect
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-connect
+  template:
+    metadata:
+      labels:
+        app: kafka-connect
+    spec:
+      initContainers:
+        - name: wait-for-broker
+          image: busybox:1.36
+          command:
+            - sh
+            - -c
+            - |
+              until nc -z broker 29092; do
+                echo "Waiting for Kafka broker..."
+                sleep 5
+              done
+              echo "Kafka broker is ready!"
+      containers:
+        - name: kafka-connect
+          image: confluentinc/cp-kafka-connect:7.4.0
+          ports:
+            - containerPort: 8083
+              name: rest
+          env:
+            - name: CONNECT_BOOTSTRAP_SERVERS
+              value: "broker:29092"
+            - name: CONNECT_REST_PORT
+              value: "8083"
+            - name: CONNECT_GROUP_ID
+              value: "ckn-connect-group"
+            - name: CONNECT_CONFIG_STORAGE_TOPIC
+              value: "ckn-connect-configs"
+            - name: CONNECT_OFFSET_STORAGE_TOPIC
+              value: "ckn-connect-offsets"
+            - name: CONNECT_STATUS_STORAGE_TOPIC
+              value: "ckn-connect-status"
+            - name: CONNECT_KEY_CONVERTER
+              value: "org.apache.kafka.connect.storage.StringConverter"
+            - name: CONNECT_VALUE_CONVERTER
+              value: "org.apache.kafka.connect.json.JsonConverter"
+            - name: CONNECT_INTERNAL_KEY_CONVERTER
+              value: "org.apache.kafka.connect.json.JsonConverter"
+            - name: CONNECT_INTERNAL_VALUE_CONVERTER
+              value: "org.apache.kafka.connect.json.JsonConverter"
+            - name: CONNECT_REST_ADVERTISED_HOST_NAME
+              value: "kafka-connect"
+            - name: CONNECT_LOG4J_ROOT_LOGLEVEL
+              value: "INFO"
+            - name: CONNECT_LOG4J_LOGGERS
+              value: "org.apache.kafka.connect.runtime.rest=WARN,org.reflections=ERROR"
+            - name: CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR
+              value: "1"
+            - name: CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR
+              value: "1"
+            - name: CONNECT_STATUS_STORAGE_REPLICATION_FACTOR
+              value: "1"
+            - name: CONNECT_PLUGIN_PATH
+              value: "/usr/share/java,/usr/share/confluent-hub-components"
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
+          readinessProbe:
+            httpGet:
+              path: /connectors
+              port: 8083
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /connectors
+              port: 8083
+            initialDelaySeconds: 60
+            periodSeconds: 30
