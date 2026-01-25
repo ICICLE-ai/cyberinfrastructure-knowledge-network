@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: ckn
+
+resources:
+  - namespace.yaml
+  - configmap.yaml
+  - broker.yaml
+  - kafka-connect.yaml
+  - ckn-dashboard.yaml
+  - oracle-alert-processor.yaml
+  - oracle-aggr-processor.yaml
+
+commonLabels:
+  app.kubernetes.io/part-of: cyberinfrastructure-knowledge-network

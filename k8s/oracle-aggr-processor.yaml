@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oracle-aggr-processor
+  namespace: ckn
+  labels:
+    app: oracle-aggr-processor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: oracle-aggr-processor
+  template:
+    metadata:
+      labels:
+        app: oracle-aggr-processor
+    spec:
+      initContainers:
+        - name: wait-for-broker
+          image: busybox:1.36
+          command:
+            - sh
+            - -c
+            - |
+              until nc -z broker 29092; do
+                echo "Waiting for Kafka broker..."
+                sleep 5
+              done
+              echo "Kafka broker is ready!"
+      containers:
+        - name: oracle-aggr-processor
+          image: iud2i/ckn-cameratraps-agg:latest
+          env:
+            - name: CKN_BROKERS
+              value: "broker:29092"
+            - name: CKN_ORACLE_WINDOW_TIME
+              value: "1"
+            - name: ORACLE_INPUT_TOPIC
+              value: "oracle-events"
+            - name: ORACLE_AGG_ALERT_TOPIC
+              value: "oracle-aggregated"
+            - name: APP_ID
+              value: "ckn-camera-traps-oracle-aggreg"
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
