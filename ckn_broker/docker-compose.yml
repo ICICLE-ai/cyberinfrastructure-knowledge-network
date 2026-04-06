@@ -56,6 +56,14 @@ services:
     volumes:
       - ./:/app
     command: [ "sh", "-c", "chmod +x /app/setup_connector.sh && /app/setup_connector.sh" ]
+    networks:
+      - default
+      - ckn-network
+
+networks:
+  ckn-network:
+    external: true
+    name: ckn-network
 
 #  oracle-alert-processor:
 #    image: iud2i/ckn-cameratraps-acc-alert:v0.0.1

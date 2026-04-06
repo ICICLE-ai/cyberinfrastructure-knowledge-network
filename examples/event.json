@@ -3,7 +3,7 @@
   "experiment_id": "example_experiment",
   "user_id": "example_user",
   "model_id": "example_model",
-  "UUID": "example_uuid",
+  "UUID": "e2e-test-001",
   "image_name": "sample_image.png",
   "ground_truth": "cat",
   "image_count": 1,
@@ -11,8 +11,19 @@
   "image_scoring_timestamp": "2024-09-05T12:00:01Z",
   "image_store_delete_time": "2024-09-05T12:00:02Z",
   "image_decision": "Save",
-  "flattened_scores": [
-    {"label": "cat", "probability": 0.95},
-    {"label": "dog", "probability": 0.05}
-  ]
+  "label": "cat",
+  "probability": 0.9500000,
+  "flattened_scores": "[{\"label\":\"cat\",\"probability\":0.95},{\"label\":\"dog\",\"probability\":0.05}]",
+  "total_images": 1,
+  "total_predictions": 1,
+  "total_ground_truth_objects": 1,
+  "true_positives": 1,
+  "false_positives": 0,
+  "false_negatives": 0,
+  "precision": 1.00000,
+  "recall": 1.00000,
+  "f1_score": 1.00000,
+  "mean_iou": 0.85000,
+  "map_50": 0.90000,
+  "map_50_95": 0.75000
 }
