@@ -6,7 +6,7 @@
     "connection.url": "jdbc:postgresql://patra-postgres:5432/patra",
     "connection.user": "patra",
     "connection.password": "patra-dev-password",
-    "table.name.format": "camera_trap_power",
+    "table.name.format": "power_summary",
     "insert.mode": "upsert",
     "pk.mode": "record_value",
     "pk.fields": "experiment_id",
@@ -15,7 +15,7 @@
     "key.converter": "org.apache.kafka.connect.storage.StringConverter",
     "key.converter.schemas.enable": false,
     "value.converter": "org.apache.kafka.connect.json.JsonConverter",
-    "value.converter.schemas.enable": false,
+    "value.converter.schemas.enable": true,
     "errors.tolerance": "all",
     "errors.log.enable": true,
     "errors.log.include.messages": true
