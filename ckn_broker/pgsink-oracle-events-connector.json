@@ -9,7 +9,7 @@
     "table.name.format": "events",
     "insert.mode": "upsert",
     "pk.mode": "record_value",
-    "pk.fields": "uuid",
+    "pk.fields": "uuid,experiment_id",
     "auto.create": "false",
     "auto.evolve": "false",
     "key.converter": "org.apache.kafka.connect.storage.StringConverter",
