@@ -1,14 +1,14 @@
 - id: CKN:0.1.0
   name: Cyberinfrastructure Knowledge Network
   status: ProductionRelease
-  website: https://github.com/Data-to-Insight-Center/cyberinfrastructure-knowledge-network
+  website: https://github.com/Plale-Lab/cyberinfrastructure-knowledge-network
   description: The Cyberinfrastructure Knowledge Network is a distributed framework designed to optimize AI at the edge.
   owner: Beth Plale
   primaryThrust: core/AI4CI
-  sourceCodeUrl: https://github.com/Data-to-Insight-Center/cyberinfrastructure-knowledge-network
+  sourceCodeUrl: https://github.com/Plale-Lab/cyberinfrastructure-knowledge-network
   targetIcicleRelease: 2024-12
   componentVersion: 0.1.0
-  licenseUrl: https://github.com/Data-to-Insight-Center/cyberinfrastructure-knowledge-network/blob/main/LICENSE
+  licenseUrl: https://github.com/Plale-Lab/cyberinfrastructure-knowledge-network/blob/main/LICENSE
   releaseNotesUrl:
   doi: https://doi.org/10.1109/e-Science58273.2023.10254827
   citation: S. Withana and B. Plale, CKN':' An Edge AI Distributed Framework
@@ -19,7 +19,7 @@
   securityReviewConducted: false
   biasAssessmentConducted: false
   usageDocumentationAvailable: true
-  usageDocumentationUrl: https://github.com/Data-to-Insight-Center/cyberinfrastructure-knowledge-network/blob/main/README.md
+  usageDocumentationUrl: https://github.com/Plale-Lab/cyberinfrastructure-knowledge-network/blob/main/README.md
   developerDocumentationAvailable: true
   developerDocumentationUrl: https://cyberinfrastructure-knowledge-network.readthedocs.io/en/latest/
   trainingTutorialsAvailable: false

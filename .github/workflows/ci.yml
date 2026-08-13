@@ -1,23 +1,22 @@
 name: CKN-CI
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ main, release/1.0.0 ]
+  pull_request:
+    branches: [ main, release/1.0.0 ]
 
 jobs:
   start:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.8
-
-      - name: Install Docker Compose
-        run: |
-          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
+          python-version: "3.11"
 
       - name: Build CKN
         run: |

@@ -16,7 +16,7 @@ CKN Daemon for extracting camera traps performance information from the Edge to 
 
  1. Clone the repository
       ```bash
-      git clone https://github.com/Data-to-Insight-Center/cyberinfrastructure-knowledge-network.git
+      git clone https://github.com/Plale-Lab/cyberinfrastructure-knowledge-network.git
       cd plugins/ckn-mqtt-cameratraps
       ```
 2. Start the MQTT broker (Mosquitto):
