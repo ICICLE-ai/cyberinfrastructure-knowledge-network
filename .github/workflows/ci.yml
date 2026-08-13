@@ -18,84 +18,11 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Build CKN
+      - name: Install CKN Oracle Daemon plugin dependencies
         run: |
-          docker network create ckn-network || true
-          docker compose -f docker-compose.yml up -d --build
-
-      - name: Apply neo4j Constraints
-        run: |
-          echo "Waiting for neo4j to be ready..."
-          while ! docker exec neo4j_server cypher-shell -u neo4j -p PWD_HERE "RETURN 1" > /dev/null 2>&1; do \
-            echo "neo4j-server starting..."; \
-            sleep 5; \
-          done
-          echo "neo4j is ready"
-
-          docker cp ckn_kg/constraints.cypher neo4j_server:/constraints.cypher
-          docker exec neo4j_server cypher-shell -u neo4j -p PWD_HERE -f /constraints.cypher
-
-      - name: Wait for Kafka Connect and connectors
-        run: |
-          echo "Waiting for Kafka Connect REST API..."
-          while ! curl -s http://localhost:8083/connectors > /dev/null 2>&1; do \
-            echo "Kafka Connect starting..."; \
-            sleep 5; \
-          done
-          echo "Kafka Connect is ready"
-          
-          echo "Waiting for Neo4j sink connector..."
-          for i in {1..30}; do
-            if curl -s http://localhost:8083/connectors | grep -q "Neo4jSinkConnectorCameraTraps"; then
-              echo "Neo4j sink connector is ready"
-              break
-            fi
-            echo "Waiting for connector... ($i/30)"
-            sleep 5
-          done
-
-      - name: Build CKN Oracle Daemon plugin WITHOUT power_monitoring
-        run: |
-          # Use CI override to connect to local Kafka broker
-          docker compose -f plugins/oracle_ckn_daemon/docker-compose.yml -f plugins/oracle_ckn_daemon/docker-compose.ci.yml up -d --build
-          sleep 5
-          
-          # Trigger file modification to process events (file already has sample data)
-          docker exec ckn-oracle-daemon touch /oracle_logs/image_mapping_final.json
-          
-          # Wait for data to flow through pipeline: daemon -> Kafka -> Neo4j
-          echo "Waiting for data ingestion..."
-          sleep 20
-
-      - name: Test CKN Oracle Daemon plugin WITHOUT power_monitoring
-        run: |
+          pip install -r plugins/oracle_ckn_daemon/requirements.txt
           pip install -r plugins/oracle_ckn_daemon/tests/requirements.txt
-          pytest plugins/oracle_ckn_daemon/tests/test_ckn_oracle_daemon.py -v
-          pytest plugins/oracle_ckn_daemon/tests/test_power_monitoring_false.py -v
-          docker compose -f plugins/oracle_ckn_daemon/docker-compose.yml -f plugins/oracle_ckn_daemon/docker-compose.ci.yml down
 
-      - name: Build CKN Oracle Daemon plugin WITH power_monitoring
+      - name: Test CKN Oracle Daemon plugin
         run: |
-          sed -i 's/ENABLE_POWER_MONITORING=false/ENABLE_POWER_MONITORING=true/' plugins/oracle_ckn_daemon/docker-compose.yml
-
-          docker compose -f plugins/oracle_ckn_daemon/docker-compose.yml -f plugins/oracle_ckn_daemon/docker-compose.ci.yml up -d --build
-          sleep 5
-          
-          # Trigger file modification - daemon will process events and detect shutdown signal
-          docker exec ckn-oracle-daemon touch /oracle_logs/image_mapping_final.json
-          
-          # Wait for daemon to process shutdown signal and send power summary to Kafka -> Neo4j
-          echo "Waiting for power data ingestion..."
-          sleep 25
-
-      - name: Test CKN Oracle Daemon plugin WITH power_monitoring
-        run: |
-          pytest plugins/oracle_ckn_daemon/tests/test_power_monitoring_true.py -v
-          docker compose -f plugins/oracle_ckn_daemon/docker-compose.yml -f plugins/oracle_ckn_daemon/docker-compose.ci.yml down
-
-
-      - name: Stop and Remove CKN Docker Network
-        if: always()
-        run: |
-          docker compose -f docker-compose.yml down
-          docker network rm ckn-network || true
+          pytest plugins/oracle_ckn_daemon/tests/ -v

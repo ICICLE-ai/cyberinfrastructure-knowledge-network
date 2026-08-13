@@ -1,4 +1,1 @@
-neo4j
 pytest
-docker
-confluent_kafka

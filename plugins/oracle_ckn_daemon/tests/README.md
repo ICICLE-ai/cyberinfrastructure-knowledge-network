@@ -1,30 +1,19 @@
 CKN Oracle Daemon plugin tests:
 
+These are mocked unit tests against `oracle_daemon.py` and `power_processor.py` directly —
+no live Kafka, Neo4j, or Postgres services required.
+
 1. Install requirements:
 ```bash
-  pip install -r requirements.txt
+  pip install -r ../requirements.txt -r requirements.txt
   ```
 
-2. **Start up CKN and Produce Oracle Events**
-   Refer to the [Getting Started](../README.md) section.
+2. **Run Tests**:
+```bash
+  pytest .
+```
 
-3. **Run Tests**:
-   - Test if events are stored in Knowledge Graph:
-   ```bash
-    pytest test_ckn_oracle_daemon.py
-   ```
-   
-   - Test when POWER_MONITORING is enabled:
-   ```bash
-    pytest test_power_monitoring_false.py
-   ```
-   
-   - Test when POWER_MONITORING is disabled:
-   ```bash
-    pytest test_power_monitoring_true.py
-   ```
-   
-   - Test CKN Stream Processors:
-   ```bash
-    pytest test_ckn_stream_processor.py
-   ```
+   - `test_oracle_event_handler.py` — event-metric math (IoU, precision/recall), fixture-driven
+     event processing, and broker-connection retry logic.
+   - `test_power_processor.py` — power-summary flattening and Kafka production, using a mocked
+     producer.

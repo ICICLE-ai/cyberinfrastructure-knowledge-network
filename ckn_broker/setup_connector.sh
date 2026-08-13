@@ -1,7 +1,6 @@
 #!/bin/bash
 
 echo "Installing connector plugins"
-confluent-hub install --no-prompt neo4j/kafka-connect-neo4j:5.0.5
 confluent-hub install --no-prompt confluentinc/kafka-connect-jdbc:10.7.6
 
 echo "Launching Kafka Connect worker"
@@ -22,10 +21,6 @@ echo "Kafka Connect is ready!"
 echo "Creating JDBC Sink Connectors (PostgreSQL)"
 curl -X POST -H "Content-Type: application/json" --data @/app/pgsink-oracle-events-connector.json http://localhost:8083/connectors
 curl -X POST -H "Content-Type: application/json" --data @/app/pgsink-power-summary-connector.json http://localhost:8083/connectors
-
-echo "Creating Neo4j Sink Connectors (alerts + compiler)"
-curl -X POST -H "Content-Type: application/json" --data @/app/neo4jsink-oracle-alerts-connector.json http://localhost:8083/connectors
-curl -X POST -H "Content-Type: application/json" --data @/app/neo4jsink-compiler-data-connector.json http://localhost:8083/connectors
 
 echo "Connector setup completed"
 
