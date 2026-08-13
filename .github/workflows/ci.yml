@@ -7,8 +7,63 @@ on:
     branches: [ main, release/1.0.0 ]
 
 jobs:
-  start:
+  test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: oracle_ckn_daemon
+            requirements: |
+              plugins/oracle_ckn_daemon/requirements.txt
+              plugins/oracle_ckn_daemon/tests/requirements.txt
+            test_path: plugins/oracle_ckn_daemon/tests/
+            cov_target: plugins/oracle_ckn_daemon
+
+          - name: ckn-mqtt-cameratraps
+            requirements: |
+              plugins/ckn-mqtt-cameratraps/requirements.txt
+            test_path: plugins/ckn-mqtt-cameratraps/test/
+            cov_target: plugins/ckn-mqtt-cameratraps
+
+          - name: experiment-alerts
+            requirements: |
+              plugins/experiment-alerts/requirements.txt
+            test_path: plugins/experiment-alerts/tests/
+            cov_target: plugins/experiment-alerts
+
+          - name: ckn_inference_daemon
+            requirements: |
+              plugins/ckn_inference_daemon/requirements.txt
+              plugins/ckn_inference_daemon/tests/requirements.txt
+            test_path: plugins/ckn_inference_daemon/tests/
+            cov_target: plugins/ckn_inference_daemon
+
+          - name: patra_agent-edge_server
+            requirements: |
+              patra_agent/edge_server/requirements.txt
+            test_path: patra_agent/edge_server/tests/
+            cov_target: patra_agent/edge_server
+
+          - name: patra_agent-cloud_services
+            requirements: |
+              patra_agent/cloud_services/tests/requirements.txt
+            test_path: patra_agent/cloud_services/tests/
+            cov_target: patra_agent/cloud_services
+
+          - name: patra_agent-patra_mcp_server
+            requirements: |
+              patra_agent/cloud_services/patra_mcp_server/tests/requirements.txt
+            test_path: patra_agent/cloud_services/patra_mcp_server/tests/
+            cov_target: patra_agent/cloud_services/patra_mcp_server
+
+          - name: ckn_dashboard
+            requirements: |
+              ckn_dashboard/requirements.txt
+              ckn_dashboard/tests/requirements.txt
+            test_path: ckn_dashboard/tests/
+            cov_target: ckn_dashboard
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -18,11 +73,17 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install CKN Oracle Daemon plugin dependencies
+      - name: Install ${{ matrix.name }} dependencies
+        env:
+          REQUIREMENTS: ${{ matrix.requirements }}
         run: |
-          pip install -r plugins/oracle_ckn_daemon/requirements.txt
-          pip install -r plugins/oracle_ckn_daemon/tests/requirements.txt
+          pip install pytest-cov
+          echo "$REQUIREMENTS" | while IFS= read -r req; do
+            [ -n "$req" ] && pip install -r "$req"
+          done
 
-      - name: Test CKN Oracle Daemon plugin
-        run: |
-          pytest plugins/oracle_ckn_daemon/tests/ -v
+      - name: Test ${{ matrix.name }}
+        env:
+          TEST_PATH: ${{ matrix.test_path }}
+          COV_TARGET: ${{ matrix.cov_target }}
+        run: pytest "$TEST_PATH" -v --cov="$COV_TARGET" --cov-report=term-missing

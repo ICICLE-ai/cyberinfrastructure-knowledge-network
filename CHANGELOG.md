@@ -1,3 +1,35 @@
+## [Unreleased]
+
+### Added
+- Mocked unit test suites for 5 previously-untested sub-components: `ckn-mqtt-cameratraps`,
+  `experiment-alerts`, `ckn_inference_daemon`, `patra_agent` (`edge_server`, `cloud_services`,
+  `cloud_services/patra_mcp_server`), and `ckn_dashboard`. No live Kafka/MQTT/Neo4j/Postgres/LLM
+  services required — all external calls are mocked at the boundary. 160 tests total.
+- CI (`.github/workflows/ci.yml`) restructured from a single `oracle_ckn_daemon`-only job into a
+  matrix, one entry per sub-component, each with its own dependency install and `--cov` target.
+- Filled test-only dependency gaps that existed but were undeclared in any `requirements.txt`:
+  `httpx` (`ckn_inference_daemon`), `psycopg2-binary`/`confluent-kafka`
+  (`patra_agent/cloud_services`), `mcp~=1.0.0`/`neo4j`/`python-dotenv`/`openai`
+  (`patra_mcp_server`).
+
+### Known issues found by the new tests (not fixed — flagged for the maintainer)
+- `patra_agent/edge_server/server.py`: `/predict`'s "no file" and "no filename" validation paths
+  call `flash()`, but the app never sets `secret_key`; both crash with a 500 instead of the
+  intended redirect.
+- `patra_agent/edge_server/server.py`: `qoe_predict()` only assigns the local `data` variable
+  inside the extension-check branch but references it unconditionally afterward — an invalid
+  file extension raises `UnboundLocalError` (surfaces as 500) instead of a clean 4xx.
+- `patra_agent/cloud_services/patra_mcp_server/ingester/neo4j_ingester.py`: `update_mc()`
+  accesses `model_card["model_requirements"]` with no existence guard, unlike `add_mc()`'s
+  `if "model_requirements" in model_card`; a card missing that key raises `KeyError`.
+- `plugins/ckn_inference_daemon/models/model_store.py`: `get_model()` passes `response.json()`
+  (a dict) into `get_model_location()`, which immediately calls `json.loads()` expecting a raw
+  string — crashes with `TypeError` against any real Patra server response.
+- `plugins/ckn_inference_daemon` and `patra_agent/edge_server` each have their own
+  `process_qoe()`/`calculate_acc_qoe()` with the accuracy ratio computed in opposite directions
+  (provided/required vs. required/provided) — not necessarily a bug, but a real inconsistency
+  across near-duplicate code worth reconciling.
+
 ## [v1.0.0] - 2026-08-12
 
 First stable release.
