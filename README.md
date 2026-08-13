@@ -186,8 +186,8 @@ You have successfully set up a temperature‑monitoring plugin with CKN!
 
 ## License
 
-The Cyberinfrastructure Knowledge Network (CKN) is copyrighted by the Indiana University Board of Trustees and is distributed under the BSD 3-Clause License. See `LICENSE` for more information.
+The Cyberinfrastructure Knowledge Network (CKN) is copyrighted by Plale Lab at The University of Oregon and is distributed under the BSD 3-Clause License. See `LICENSE` for more information.
 
 ## Acknowledgements
 
-This work has been funded by grants from the National Science Foundation, including the ICICLE AI Institute (OAC 2112606), and in part through Data to Insight Center (D2I) at Indiana University.
+This work has been funded by grants from the National Science Foundation, including the ICICLE AI Institute (OAC 2112606), and in part through Plale Lab at The University of Oregon.

@@ -7,8 +7,8 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'Cyberinfrastructure Knowledge Network'
-copyright = '2024, Data To Insights Center, Indiana University'
-author = 'Data To Insights Center, Indiana University'
+copyright = '2024, Plale Lab, The University of Oregon'
+author = 'Plale Lab, The University of Oregon'
 release = '0.1.0'
 
 # -- General configuration ---------------------------------------------------

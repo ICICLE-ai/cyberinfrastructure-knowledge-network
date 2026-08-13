@@ -336,10 +336,10 @@ Open the Neo4j browser at http://localhost:7474/browser/ to view streamed data.
 License
 -------
 
-See ``LICENSE.txt`` for license details.
+See ``LICENSE`` for license details.
 
 Acknowledgements
 ----------------
 
-Funded by NSF award #2112606 (ICICLE) and the Data to Insight Center at Indiana University.
+Funded by NSF award #2112606 (ICICLE) and Plale Lab at The University of Oregon.
 
