@@ -79,7 +79,9 @@ jobs:
         run: |
           pip install pytest-cov
           echo "$REQUIREMENTS" | while IFS= read -r req; do
-            [ -n "$req" ] && pip install -r "$req"
+            if [ -n "$req" ]; then
+              pip install -r "$req"
+            fi
           done
 
       - name: Test ${{ matrix.name }}
