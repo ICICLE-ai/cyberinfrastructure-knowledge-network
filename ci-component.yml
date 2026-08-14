@@ -17,8 +17,6 @@
   developerDocumentationAvailable: true
   developerDocumentationUrl: https://cyberinfrastructure-knowledge-network.readthedocs.io/en/latest/
   trainingTutorialsAvailable: false
-  # Fields below aren't part of the icicle-component-info-skill schema; kept per
-  # team decision rather than dropped.
   website: https://github.com/Plale-Lab/cyberinfrastructure-knowledge-network
   releaseNotesUrl: https://github.com/Plale-Lab/cyberinfrastructure-knowledge-network/releases/tag/v1.0.0
   doi: https://doi.org/10.1109/e-Science58273.2023.10254827
