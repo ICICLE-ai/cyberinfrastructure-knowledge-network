@@ -48,7 +48,7 @@ CKN Daemon for extracting camera traps performance information from the Edge to 
 
 Docker image for the CKN Daemon for Cameratraps is available at:
 
-[D2I Docker Repository](https://hub.docker.com/repository/docker/iud2i/ckn-daemon-cameratraps/general)
+[Plale Lab Docker Repository](https://hub.docker.com/repository/docker/plalelab/ckn-daemon-cameratraps/general)
 
 The following environment variables can be set during experiment execution time.
 

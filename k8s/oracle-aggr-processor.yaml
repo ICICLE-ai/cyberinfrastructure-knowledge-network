@@ -29,7 +29,7 @@ spec:
               echo "Kafka broker is ready!"
       containers:
         - name: oracle-aggr-processor
-          image: iud2i/ckn-cameratraps-agg:latest
+          image: plalelab/ckn-cameratraps-agg:latest
           env:
             - name: CKN_BROKERS
               value: "broker:29092"

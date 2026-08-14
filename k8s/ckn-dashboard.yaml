@@ -33,7 +33,7 @@ spec:
     spec:
       containers:
         - name: ckn-dashboard
-          image: iud2i/ckn-analytics-dashboard:latest
+          image: plalelab/ckn-analytics-dashboard:latest
           ports:
             - containerPort: 8502
               name: http

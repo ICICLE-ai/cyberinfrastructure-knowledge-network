@@ -66,7 +66,7 @@ networks:
     name: ckn-network
 
 #  oracle-alert-processor:
-#    image: iud2i/ckn-cameratraps-acc-alert:v0.0.1
+#    image: plalelab/ckn-cameratraps-acc-alert:v0.0.1
 #    depends_on:
 #      broker:
 #        condition: service_healthy
@@ -78,7 +78,7 @@ networks:
 #      - APP_ID=ckn-camera-traps-oracle-processor
 #
 #  oracle-aggr-processor:
-#    image: iud2i/ckn-cameratraps-agg:v0.0.1
+#    image: plalelab/ckn-cameratraps-agg:v0.0.1
 #    depends_on:
 #      broker:
 #        condition: service_healthy

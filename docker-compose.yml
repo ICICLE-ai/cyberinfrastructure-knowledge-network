@@ -86,7 +86,7 @@ services:
       - ckn-network
 
   ckn-dashboard:
-    image: iud2i/ckn-analytics-dashboard:latest
+    image: plalelab/ckn-analytics-dashboard:latest
     container_name: dashboard
     ports:
       - "8502:8502"
@@ -101,7 +101,7 @@ services:
       - ckn-network
 
   oracle-alert-processor:
-    image: iud2i/ckn-cameratraps-acc-alert:latest
+    image: plalelab/ckn-cameratraps-acc-alert:latest
     depends_on:
       broker:
         condition: service_healthy
@@ -115,7 +115,7 @@ services:
       - ckn-network
 
   oracle-aggr-processor:
-    image: iud2i/ckn-cameratraps-agg:latest
+    image: plalelab/ckn-cameratraps-agg:latest
     depends_on:
       broker:
         condition: service_healthy

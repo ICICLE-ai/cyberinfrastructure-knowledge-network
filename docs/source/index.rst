@@ -10,8 +10,8 @@
    :target: https://cyberinfrastructure-knowledge-network.readthedocs.io/en/latest/
    :alt: Documentation Status
 
-.. image:: https://github.com/Data-to-Insight-Center/cyberinfrastructure-knowledge-network/actions/workflows/ci.yml/badge.svg
-   :target: https://github.com/Data-to-Insight-Center/cyberinfrastructure-knowledge-network/actions
+.. image:: https://github.com/Plale-Lab/cyberinfrastructure-knowledge-network/actions/workflows/ci.yml/badge.svg
+   :target: https://github.com/Plale-Lab/cyberinfrastructure-knowledge-network/actions
    :alt: Build Status
 
 .. image:: https://img.shields.io/badge/License-BSD%203--Clause-blue.svg
@@ -70,7 +70,7 @@ Clone the repository and start services
 
 .. code-block:: bash
 
-   git clone https://github.com/Data-to-Insight-Center/cyberinfrastructure-knowledge-network.git
+   git clone https://github.com/Plale-Lab/cyberinfrastructure-knowledge-network.git
    make up
 
 After setup completes, verify that all modules are running:

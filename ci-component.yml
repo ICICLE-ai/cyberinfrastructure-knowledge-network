@@ -13,7 +13,7 @@
   doi: https://doi.org/10.1109/e-Science58273.2023.10254827
   citation: S. Withana and B. Plale, CKN':' An Edge AI Distributed Framework
   pypiPackage:
-  containerImage: https://hub.docker.com/u/iud2i
+  containerImage: https://hub.docker.com/u/plalelab
   codeReviewConducted: true
   testsWritten: true
   securityReviewConducted: false

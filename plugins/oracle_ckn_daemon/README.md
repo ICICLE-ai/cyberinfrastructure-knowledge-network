@@ -37,7 +37,7 @@ This daemon includes both Oracle event processing and experiment metrics computa
 
 Docker image for the CKN Daemon for Cameratraps is available at:
 
-[D2I Docker Repository](https://hub.docker.com/repository/docker/iud2i/ckn-daemon-cameratraps/general)
+[Plale Lab Docker Repository](https://hub.docker.com/repository/docker/plalelab/ckn-daemon-cameratraps/general)
 
 ### Environment Variables
 
