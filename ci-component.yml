@@ -1,28 +1,32 @@
-- id: CKN:1.0.0
-  name: Cyberinfrastructure Knowledge Network
-  status: ProductionRelease
-  website: https://github.com/Plale-Lab/cyberinfrastructure-knowledge-network
-  description: The Cyberinfrastructure Knowledge Network is a distributed framework designed to optimize AI at the edge.
+- id: CyberinfrastructureKnowledgeNetwork:1.0.0
   owner: Beth Plale
   primaryThrust: core/AI4CI
-  sourceCodeUrl: https://github.com/Plale-Lab/cyberinfrastructure-knowledge-network
-  targetIcicleRelease: 2026-08
+  name: Cyberinfrastructure Knowledge Network
+  status: ProductionRelease
+  description: The Cyberinfrastructure Knowledge Network is a distributed framework designed to optimize AI at the edge.
   componentVersion: 1.0.0
-  licenseUrl: https://github.com/Plale-Lab/cyberinfrastructure-knowledge-network/blob/main/LICENSE
+  targetIcicleRelease: "2026-08"
+  hasDependentComponents:
+    - related_to: PatraKnowledgeBase:1.0.0
+      relationship_type: DependsOn
+  licenseUrl: https://github.com/Plale-Lab/cyberinfrastructure-knowledge-network?tab=BSD-3-Clause-1-ov-file
+  publicAccess: true
+  sourceCodeUrl: https://github.com/Plale-Lab/cyberinfrastructure-knowledge-network
+  codeReviewConducted: true
+  testsWritten: true
+  developerDocumentationAvailable: true
+  developerDocumentationUrl: https://cyberinfrastructure-knowledge-network.readthedocs.io/en/latest/
+  trainingTutorialsAvailable: false
+  # Fields below aren't part of the icicle-component-info-skill schema; kept per
+  # team decision rather than dropped.
+  website: https://github.com/Plale-Lab/cyberinfrastructure-knowledge-network
   releaseNotesUrl: https://github.com/Plale-Lab/cyberinfrastructure-knowledge-network/releases/tag/v1.0.0
   doi: https://doi.org/10.1109/e-Science58273.2023.10254827
   citation: S. Withana and B. Plale, CKN':' An Edge AI Distributed Framework
   pypiPackage:
   containerImage: https://hub.docker.com/u/plalelab
-  codeReviewConducted: true
-  testsWritten: true
   securityReviewConducted: false
   biasAssessmentConducted: false
   usageDocumentationAvailable: true
   usageDocumentationUrl: https://github.com/Plale-Lab/cyberinfrastructure-knowledge-network/blob/main/README.md
-  developerDocumentationAvailable: true
-  developerDocumentationUrl: https://cyberinfrastructure-knowledge-network.readthedocs.io/en/latest/
-  trainingTutorialsAvailable: false
-  trainingTutorialsUrl:
   usageMetricsCollected: false
-  publicAccess: true

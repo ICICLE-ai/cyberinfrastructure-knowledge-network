@@ -12,72 +12,36 @@
 
 The **Cyberinfrastructure Knowledge Network (CKN)** is an extensible and portable distributed framework designed to optimize AI at the edge—particularly in dynamic environments where workloads may change suddenly (for example, in response to motion detection). CKN enhances edge–cloud collaboration by using historical data, graph representations, and adaptable deployment of AI models to satisfy changing accuracy‑and‑latency demands on edge devices. It integrates with the [Patra Knowledge Base](https://github.com/Plale-Lab/patra-knowledge-base) to provide end-to-end model provenance from training through edge deployment.
 
-*Tag: CI4AI, PADI*
+**Tags:** CI4AI, PADI
+
+For guidance on what Tutorials, How-To Guides, and Explanation content covers, see [Diátaxis](https://diataxis.fr/).
+
+### License
+
+The Cyberinfrastructure Knowledge Network (CKN) is copyrighted by Plale Lab at The University of Oregon and is distributed under the BSD 3-Clause License. See `LICENSE` for more information.
+
+## References
+
+- [Documentation](https://cyberinfrastructure-knowledge-network.readthedocs.io/en/latest/)
+- [CKN paper](https://ieeexplore.ieee.org/document/10254827)
+- [Patra Knowledge Base](https://github.com/Plale-Lab/patra-knowledge-base)
+- [CKN topics reference](docs/topics.md)
+
+## Acknowledgements
+
+This work has been funded by grants from the National Science Foundation, and in part through Plale Lab at The University of Oregon.
+
+*National Science Foundation (NSF) funded AI institute for Intelligent Cyberinfrastructure with Computational Learning in the Environment (ICICLE) (OAC 2112606)*
+
+## Issue reporting
+
+Report issues via [GitHub Issues](https://github.com/Plale-Lab/cyberinfrastructure-knowledge-network/issues).
 
 ---
 
-## Explanation
+# Tutorials
 
-CKN facilitates seamless connectivity between edge devices and the cloud through event streaming, enabling real‑time data capture and processing. By leveraging event‑stream processing, it captures, aggregates, and stores historical system‑performance data in a knowledge graph that models application behaviour and guides model selection and deployment at the edge.
-
-CKN comprises several core components:
-
-- **CKN Daemon** – A lightweight service that resides on each edge server. It manages communication with edge devices, handles requests, captures performance data, and deploys AI models as needed. The daemon connects with the cloud‑based CKN system via a pub/sub system, capturing real‑time events from edge devices (model usage, resource consumption, prediction accuracy, latency, and more).
-- **Event Streaming & Processing** – Stream‑processing techniques (for example, tumbling windows) aggregate events and generate real‑time alerts from edge‑device streams.
-- **Knowledge Graph** – A Neo4j graph database that stores historical and provenance information about applications, models, and edge events. This comprehensive view of the system enables CKN to track model usage and analyse performance over time.
-- **Patra Integration** – CKN feeds edge inference events and deployment metrics into the [Patra Knowledge Base](https://github.com/Plale-Lab/patra-knowledge-base), linking runtime observations back to model cards for full lifecycle transparency.
-
-The primary objective of CKN is to provide a robust framework for optimising AI‑application deployment and resource allocation at the edge. Leveraging real‑time event streaming and knowledge graphs, CKN efficiently handles AI workloads, adapts to changing requirements, and supports scalable edge–cloud collaboration.
-
-Refer to this paper for more information: [https://ieeexplore.ieee.org/document/10254827](https://ieeexplore.ieee.org/document/10254827).
-
----
-
-## How‑To Guide
-
-See the full [documentation](https://cyberinfrastructure-knowledge-network.readthedocs.io/en/latest/) for detailed instructions on creating custom plug‑ins and streaming events to the knowledge graph.
-
-### Prerequisites
-
-- [Docker](https://www.docker.com/get-started) and [Docker Compose](https://docs.docker.com/compose) installed and running.
-- Open network access to the following ports:
-  - `7474` (Neo4j Web UI)
-  - `7687` (Neo4j Bolt)
-  - `2181` (ZooKeeper)
-  - `9092` (Kafka Broker)
-  - `8083` (Kafka Connect)
-  - `8502` (CKN dashboard)
-
-### Quick‑Start
-
-#### 1. Clone the repository and start services
-
-```bash
-git clone https://github.com/Plale-Lab/cyberinfrastructure-knowledge-network.git
-make up
-```
-
-After setup completes, verify that all modules are running:
-
-```bash
-docker compose ps
-```
-
-#### 2. Stream an example camera‑trap event
-
-```bash
-docker compose -f examples/docker-compose.yml up -d --build
-```
-
-View the streamed data on the [CKN dashboard](http://localhost:8502/Camera_Traps) or open the [neo4j browser](http://localhost:7474/browser/) and log in with the credentials mentioned in the docker-compose file. Run `MATCH (n) RETURN n` to view the streamed data.
-
-Shut down services using:
-```bash
-make down
-docker compose -f examples/docker-compose.yml down
-```
-
-## Tutorial: Create a Custom CKN Plug-in
+### Create a Custom CKN Plug-in
 
 #### 1. Create a CKN Topic
 
@@ -184,10 +148,63 @@ You have successfully set up a temperature‑monitoring plugin with CKN!
 
 ---
 
-## License
+# How-To Guides
 
-The Cyberinfrastructure Knowledge Network (CKN) is copyrighted by Plale Lab at The University of Oregon and is distributed under the BSD 3-Clause License. See `LICENSE` for more information.
+See the full [documentation](https://cyberinfrastructure-knowledge-network.readthedocs.io/en/latest/) for detailed instructions on creating custom plug‑ins and streaming events to the knowledge graph.
 
-## Acknowledgements
+### Prerequisites
 
-This work has been funded by grants from the National Science Foundation, including the ICICLE AI Institute (OAC 2112606), and in part through Plale Lab at The University of Oregon.
+- [Docker](https://www.docker.com/get-started) and [Docker Compose](https://docs.docker.com/compose) installed and running.
+- Open network access to the following ports:
+  - `7474` (Neo4j Web UI)
+  - `7687` (Neo4j Bolt)
+  - `2181` (ZooKeeper)
+  - `9092` (Kafka Broker)
+  - `8083` (Kafka Connect)
+  - `8502` (CKN dashboard)
+
+### Quick‑Start
+
+#### 1. Clone the repository and start services
+
+```bash
+git clone https://github.com/Plale-Lab/cyberinfrastructure-knowledge-network.git
+make up
+```
+
+After setup completes, verify that all modules are running:
+
+```bash
+docker compose ps
+```
+
+#### 2. Stream an example camera‑trap event
+
+```bash
+docker compose -f examples/docker-compose.yml up -d --build
+```
+
+View the streamed data on the [CKN dashboard](http://localhost:8502/Camera_Traps) or open the [neo4j browser](http://localhost:7474/browser/) and log in with the credentials mentioned in the docker-compose file. Run `MATCH (n) RETURN n` to view the streamed data.
+
+Shut down services using:
+```bash
+make down
+docker compose -f examples/docker-compose.yml down
+```
+
+---
+
+# Explanation
+
+CKN facilitates seamless connectivity between edge devices and the cloud through event streaming, enabling real‑time data capture and processing. By leveraging event‑stream processing, it captures, aggregates, and stores historical system‑performance data in a knowledge graph that models application behaviour and guides model selection and deployment at the edge.
+
+CKN comprises several core components:
+
+- **CKN Daemon** – A lightweight service that resides on each edge server. It manages communication with edge devices, handles requests, captures performance data, and deploys AI models as needed. The daemon connects with the cloud‑based CKN system via a pub/sub system, capturing real‑time events from edge devices (model usage, resource consumption, prediction accuracy, latency, and more).
+- **Event Streaming & Processing** – Stream‑processing techniques (for example, tumbling windows) aggregate events and generate real‑time alerts from edge‑device streams.
+- **Knowledge Graph** – A Neo4j graph database that stores historical and provenance information about applications, models, and edge events. This comprehensive view of the system enables CKN to track model usage and analyse performance over time.
+- **Patra Integration** – CKN feeds edge inference events and deployment metrics into the [Patra Knowledge Base](https://github.com/Plale-Lab/patra-knowledge-base), linking runtime observations back to model cards for full lifecycle transparency.
+
+The primary objective of CKN is to provide a robust framework for optimising AI‑application deployment and resource allocation at the edge. Leveraging real‑time event streaming and knowledge graphs, CKN efficiently handles AI workloads, adapts to changing requirements, and supports scalable edge–cloud collaboration.
+
+Refer to this paper for more information: [https://ieeexplore.ieee.org/document/10254827](https://ieeexplore.ieee.org/document/10254827).
